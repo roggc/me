@@ -10,7 +10,7 @@ import { useGetWidthAndHeight } from '../../hooks'
 
 const lotties = [ManWalking, ManProgramming, SoccerField]
 
-const Card = styled(C)<{ top?: number; left?: number }>`
+const Card = styled(C)<{ top: number; left: number }>`
   position: absolute;
   top: ${({ top }) => top}px;
   left: ${({ left }) => left}px;
