@@ -14,6 +14,7 @@ import { Gmail } from '@styled-icons/simple-icons/Gmail'
 import { Github } from '@styled-icons/boxicons-logos/Github'
 import { Linkedin } from '@styled-icons/boxicons-logos/Linkedin'
 import { Article } from '@styled-icons/material-rounded/Article'
+import logo from '../../resources/logo.svg'
 
 const getLotties = () => [
   { name: 'manWalking', Lottie: ManWalking, footer: <Footer>walking</Footer> },
@@ -29,8 +30,8 @@ const getLotties = () => [
   },
 ]
 
-type Keys = 'hobbies' | 'contact info'
-const KEYS: Keys[] = ['hobbies', 'contact info']
+type Keys = 'hobbies' | 'contact info' | 'looking for'
+const KEYS: Keys[] = ['hobbies', 'contact info', 'looking for']
 
 const Card = styled(C)<{ top: number; left: number; scale: number }>`
   position: absolute;
@@ -78,6 +79,8 @@ export const App = () => {
         return <Header>Some things I like</Header>
       case KEYS[1]:
         return <Header>Contact Information</Header>
+      case KEYS[2]:
+        return <Header>React and React Native dev role</Header>
     }
   }, [key])
 
@@ -87,6 +90,8 @@ export const App = () => {
         return lotties[lotties.length - 1].footer
       case KEYS[1]:
         return <Footer>2022</Footer>
+      case KEYS[2]:
+        return <Footer>Contact Me!</Footer>
     }
   }, [key, lotties])
 
@@ -138,7 +143,9 @@ export const App = () => {
                 <SmallIcon as={Linkedin} />
               </Cell>
               <Cell>
-                <Anchor href="https://www.linkedin.com/in/roggc9">roggc9</Anchor>
+                <Anchor href="https://www.linkedin.com/in/roggc9">
+                  roggc9
+                </Anchor>
               </Cell>
             </Line>
             <Line>
@@ -150,6 +157,12 @@ export const App = () => {
               </Cell>
             </Line>
           </ContactInfoCard>
+        )
+      case KEYS[2]:
+        return (
+          <LogoCard>
+            <Logo src={logo} />
+          </LogoCard>
         )
     }
   }, [key, lotties, reorderLotties, heights, widths, refs])
@@ -193,9 +206,9 @@ const Icon = styled.svg`
   font-weight: 700;
 `
 
-const SmallIcon=styled.svg`
-width:30px;
-font-weight:700;
+const SmallIcon = styled.svg`
+  width: 30px;
+  font-weight: 700;
 `
 
 const MenuOption = styled.div`
@@ -213,7 +226,7 @@ const ContactInfoCard = styled(C)`
 const Cell = styled.div`
   font-weight: 700;
   font-size: 1.2em;
-  margin:5px;
+  margin: 5px;
 `
 
 const Line = styled.div`
@@ -221,10 +234,25 @@ const Line = styled.div`
   align-items: center;
 `
 
-const Anchor=styled.a`
-text-decoration:none;
-&:hover{
-  text-decoration:underline;
-}
+const Anchor = styled.a`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
+const LogoCard = styled(C)``
+
+const Logo = styled.img`
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  animation: App-logo-spin infinite 20s linear;
+  pointer-events: none;
+  height: 40vmin;
+`
