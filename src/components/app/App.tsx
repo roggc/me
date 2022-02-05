@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useCallback } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { myTheme } from '../../myTheme'
 import { Card as C } from '../Card'
@@ -24,7 +24,8 @@ const getLotties = () => [
   },
 ]
 
-const KEYS = ['hobbies', 'contact info']
+type Keys = 'hobbies' | 'contact info'
+const KEYS: Keys[] = ['hobbies', 'contact info']
 
 const Card = styled(C)<{ top: number; left: number; scale: number }>`
   position: absolute;
@@ -45,26 +46,71 @@ export const App = () => {
     lotties.length
   )
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [key, setKey] = useState<Keys>(KEYS[0])
 
-  const reorderLotties = () => {
+  const reorderLotties = useCallback(() => {
     setLotties((prev) => {
       const reordered = prev.slice(1)
       reordered.push(prev[0])
       return reordered
     })
     setIsActivateChange(true)
-  }
+  }, [])
 
   const menuOptions = useMemo(
-    () => KEYS.map((key) => <MenuOption key={key}>{key}</MenuOption>),
+    () =>
+      KEYS.map((key) => (
+        <MenuOption key={key} onClick={() => setKey(key)}>
+          {key}
+        </MenuOption>
+      )),
     []
   )
+
+  const header = useMemo(() => {
+    switch (key) {
+      case KEYS[0]:
+        return <Header>Some things I like</Header>
+      case KEYS[1]:
+        return <Header>Contact Information</Header>
+    }
+  }, [key])
+
+  const footer = useMemo(() => {
+    switch (key) {
+      case KEYS[0]:
+        return lotties[lotties.length - 1].footer
+    }
+  }, [key, lotties])
+
+  const children = useMemo(() => {
+    switch (key) {
+      case KEYS[0]:
+        return (
+          <CardsWrapper>
+            {lotties.map((lottie, index, array) => (
+              <Card
+                width={200}
+                top={-heights[index] / 2}
+                left={-widths[index] / 2}
+                ref={(el) => refs.current.push(el)}
+                key={lottie.name}
+                scale={1 / (array.length - index)}
+                onClick={reorderLotties}
+              >
+                <lottie.Lottie />
+              </Card>
+            ))}
+          </CardsWrapper>
+        )
+    }
+  }, [key, lotties, reorderLotties, heights, widths, refs])
 
   return (
     <ThemeProvider theme={myTheme}>
       <Screen
-        header={<Header>Some things I like</Header>}
-        footer={lotties[lotties.length - 1].footer}
+        header={header}
+        footer={footer}
         menu={
           isMenuOpen ? (
             <Icon as={Cross} onClick={() => setIsMenuOpen(false)} />
@@ -74,21 +120,7 @@ export const App = () => {
         }
         menuOptions={menuOptions}
       >
-        <CardsWrapper>
-          {lotties.map((lottie, index, array) => (
-            <Card
-              width={200}
-              top={-heights[index] / 2}
-              left={-widths[index] / 2}
-              ref={(el) => refs.current.push(el)}
-              key={lottie.name}
-              scale={1 / (array.length - index)}
-              onClick={reorderLotties}
-            >
-              <lottie.Lottie />
-            </Card>
-          ))}
-        </CardsWrapper>
+        {children}
       </Screen>
     </ThemeProvider>
   )
