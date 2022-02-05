@@ -22,10 +22,9 @@ export const useGetWidthsAndHeights = (
       })
       setWidths(widths_)
       setHeights(heights_)
-      console.log(heights_)
       setIsActivateChange(false)
     }
-  }, [isActivateChange, setIsActivateChange])
+  }, [isActivateChange, setIsActivateChange,numberOfItems])
 
   useEffect(() => {
     const widths_: number[] = []
@@ -38,7 +37,6 @@ export const useGetWidthsAndHeights = (
     })
     setWidths(widths_)
     setHeights(heights_)
-    console.log(heights_)
   }, [])
 
   return { widths, heights, refs, setWidths, setHeights }

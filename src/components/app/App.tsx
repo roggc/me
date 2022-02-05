@@ -5,13 +5,13 @@ import { Card as C } from '../Card'
 import { ManWalking } from '../ManWalking'
 import { ManProgramming } from '../ManProgramming'
 import { SoccerField } from '../SoccerField'
-import { Screen as S } from '../Screen'
+import { Screen } from '../Screen'
 import { useGetWidthsAndHeights } from '../../hooks'
 
 const getLotties = () => [
-  { name: 'manWalking', Lottie: ManWalking },
-  { name: 'manProgramming', Lottie: ManProgramming },
-    { name: 'soccerField', Lottie: SoccerField },
+  { name: 'manWalking', Lottie: ManWalking,footer:<Footer>walking</Footer> },
+  { name: 'manProgramming', Lottie: ManProgramming,footer:<Footer>coding</Footer> },
+    { name: 'soccerField', Lottie: SoccerField,footer:<Footer>watching football</Footer> },
 ]
 
 const Card = styled(C)<{ top: number; left: number; scale: number }>`
@@ -40,8 +40,8 @@ export const App = () => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <Screen>
-        <CardWrapper>
+      <Screen header={<Header>Some things I like</Header>} footer={lotties[lotties.length-1].footer}>
+        <CardsWrapper>
           {lotties.map((lottie, index, array) => (
             <Card
               width={200}
@@ -55,18 +55,23 @@ export const App = () => {
               <lottie.Lottie />
             </Card>
           ))}
-        </CardWrapper>
+        </CardsWrapper>
       </Screen>
     </ThemeProvider>
   )
 }
 
-const CardWrapper = styled.div`
+const CardsWrapper = styled.div`
   position: relative;
 `
 
-const Screen = styled(S)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const Header=styled.div`
+margin:15px;
+font-size:2.2em;
+font-weight:bold;
+`
+const Footer=styled.div`
+margin:20px;
+font-size:1.2em;
+font-weight:bold;
 `
