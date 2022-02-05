@@ -9,6 +9,11 @@ import { Screen } from '../Screen'
 import { useGetWidthsAndHeights } from '../../hooks'
 import { Menu } from '@styled-icons/evaicons-solid/Menu'
 import { Cross } from '@styled-icons/entypo/Cross'
+import { User } from '@styled-icons/boxicons-solid/User'
+import { Gmail } from '@styled-icons/simple-icons/Gmail'
+import { Github } from '@styled-icons/boxicons-logos/Github'
+import { Linkedin } from '@styled-icons/boxicons-logos/Linkedin'
+import { Article } from '@styled-icons/material-rounded/Article'
 
 const getLotties = () => [
   { name: 'manWalking', Lottie: ManWalking, footer: <Footer>walking</Footer> },
@@ -80,6 +85,8 @@ export const App = () => {
     switch (key) {
       case KEYS[0]:
         return lotties[lotties.length - 1].footer
+      case KEYS[1]:
+        return <Footer>2022</Footer>
     }
   }, [key, lotties])
 
@@ -102,6 +109,47 @@ export const App = () => {
               </Card>
             ))}
           </CardsWrapper>
+        )
+      case KEYS[1]:
+        return (
+          <ContactInfoCard>
+            <Line>
+              <Cell>
+                <SmallIcon as={User} />
+              </Cell>
+              <Cell>roger gomez</Cell>
+            </Line>
+            <Line>
+              <Cell>
+                <SmallIcon as={Gmail} />
+              </Cell>
+              <Cell>roggc9@gmail.com</Cell>
+            </Line>
+            <Line>
+              <Cell>
+                <SmallIcon as={Github} />
+              </Cell>
+              <Cell>
+                <Anchor href="https://github.com/roggc">roggc</Anchor>
+              </Cell>
+            </Line>
+            <Line>
+              <Cell>
+                <SmallIcon as={Linkedin} />
+              </Cell>
+              <Cell>
+                <Anchor href="https://www.linkedin.com/in/roggc9">roggc9</Anchor>
+              </Cell>
+            </Line>
+            <Line>
+              <Cell>
+                <SmallIcon as={Article} />
+              </Cell>
+              <Cell>
+                <Anchor href="https://dev.to/roggc">roggc</Anchor>
+              </Cell>
+            </Line>
+          </ContactInfoCard>
         )
     }
   }, [key, lotties, reorderLotties, heights, widths, refs])
@@ -145,9 +193,38 @@ const Icon = styled.svg`
   font-weight: 700;
 `
 
+const SmallIcon=styled.svg`
+width:30px;
+font-weight:700;
+`
+
 const MenuOption = styled.div`
   margin: 5px;
   font-weight: 700;
   cursor: pointer;
   font-size: 1.2em;
 `
+
+const ContactInfoCard = styled(C)`
+  --display: grid;
+  --grid-template-columns: repeat(2, 1fr);
+`
+
+const Cell = styled.div`
+  font-weight: 700;
+  font-size: 1.2em;
+  margin:5px;
+`
+
+const Line = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Anchor=styled.a`
+text-decoration:none;
+&:hover{
+  text-decoration:underline;
+}
+`
+
