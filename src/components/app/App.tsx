@@ -15,6 +15,10 @@ import { Github } from '@styled-icons/boxicons-logos/Github'
 import { Linkedin } from '@styled-icons/boxicons-logos/Linkedin'
 import { Article } from '@styled-icons/material-rounded/Article'
 import logo from '../../resources/logo.svg'
+import { Like } from '@styled-icons/boxicons-solid/Like'
+import { EmojiHeartEyesFill } from '@styled-icons/bootstrap/EmojiHeartEyesFill'
+import { Search } from '@styled-icons/evaicons-solid/Search'
+import { TelephoneFill } from '@styled-icons/bootstrap/TelephoneFill'
 
 const getLotties = () => [
   { name: 'manWalking', Lottie: ManWalking, footer: <Footer>walking</Footer> },
@@ -30,8 +34,20 @@ const getLotties = () => [
   },
 ]
 
+const SuperSmallIcon = styled.svg`
+  width: 20px;
+  font-weight: 700;
+  margin: 5px;
+`
+
 type Keys = 'hobbies' | 'contact info' | 'looking for' | 'tech skills'
 const KEYS: Keys[] = ['hobbies', 'contact info', 'looking for', 'tech skills']
+const IconsKeys = [
+  <SuperSmallIcon as={EmojiHeartEyesFill} />,
+  <SuperSmallIcon as={TelephoneFill} />,
+  <SuperSmallIcon as={Search} />,
+  <SuperSmallIcon as={Like} />,
+]
 
 const Card = styled(C)<{ top: number; left: number; scale: number }>`
   position: absolute;
@@ -65,12 +81,13 @@ export const App = () => {
 
   const menuOptions = useMemo(
     () =>
-      KEYS.map((key_) => (
+      KEYS.map((key_, index) => (
         <MenuOption
           key={key_}
           onClick={() => setKey(key_)}
           isSelected={key_ === key}
         >
+          {IconsKeys[index]}
           {key_}
         </MenuOption>
       )),
@@ -249,6 +266,8 @@ const SmallIcon = styled.svg`
 `
 
 const MenuOption = styled.div<{ isSelected: boolean }>`
+  display: flex;
+  align-items: center;
   margin: 5px;
   font-weight: 700;
   cursor: pointer;
