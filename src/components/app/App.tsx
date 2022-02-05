@@ -30,8 +30,8 @@ const getLotties = () => [
   },
 ]
 
-type Keys = 'hobbies' | 'contact info' | 'looking for'
-const KEYS: Keys[] = ['hobbies', 'contact info', 'looking for']
+type Keys = 'hobbies' | 'contact info' | 'looking for' | 'tech skills'
+const KEYS: Keys[] = ['hobbies', 'contact info', 'looking for', 'tech skills']
 
 const Card = styled(C)<{ top: number; left: number; scale: number }>`
   position: absolute;
@@ -66,7 +66,11 @@ export const App = () => {
   const menuOptions = useMemo(
     () =>
       KEYS.map((key_) => (
-        <MenuOption key={key_} onClick={() => setKey(key_)} isSelected={key_===key}>
+        <MenuOption
+          key={key_}
+          onClick={() => setKey(key_)}
+          isSelected={key_ === key}
+        >
           {key_}
         </MenuOption>
       )),
@@ -81,6 +85,8 @@ export const App = () => {
         return <Header>Contact Information</Header>
       case KEYS[2]:
         return <Header>React and React Native dev role</Header>
+      case KEYS[3]:
+        return <Header>Things I know in tech</Header>
     }
   }, [key])
 
@@ -92,6 +98,8 @@ export const App = () => {
         return <Footer>2022</Footer>
       case KEYS[2]:
         return <Footer>Contact Me!</Footer>
+      case KEYS[3]:
+        return <Footer>2022</Footer>
     }
   }, [key, lotties])
 
@@ -164,6 +172,35 @@ export const App = () => {
             <Logo src={logo} />
           </LogoCard>
         )
+      case KEYS[3]:
+        return (
+          <TechSkillsCard>
+            <Cell>React (Hooks)</Cell>
+            <LineRight>
+              <Cell>7/10</Cell>
+            </LineRight>
+            <Cell>React Native</Cell>
+            <LineRight>
+              <Cell>6.5/10</Cell>
+            </LineRight>
+            <Cell>Typescript</Cell>
+            <LineRight>
+              <Cell>6/10</Cell>
+            </LineRight>
+            <Cell>Unit Tests</Cell>
+            <LineRight>
+              <Cell>4/10</Cell>
+            </LineRight>
+            <Cell>Styled Components</Cell>
+            <LineRight>
+              <Cell>7/10</Cell>
+            </LineRight>
+            <Cell>Vue</Cell>
+            <LineRight>
+              <Cell>6/10</Cell>
+            </LineRight>
+          </TechSkillsCard>
+        )
     }
   }, [key, lotties, reorderLotties, heights, widths, refs])
 
@@ -211,19 +248,23 @@ const SmallIcon = styled.svg`
   font-weight: 700;
 `
 
-const MenuOption = styled.div<{isSelected:boolean}>`
+const MenuOption = styled.div<{ isSelected: boolean }>`
   margin: 5px;
   font-weight: 700;
   cursor: pointer;
   font-size: 1.2em;
-  border-radius:${({theme})=>theme.borderRadius}px;
-  width:fit-content;
-  padding:${({theme})=>theme.padding}px;
-  ${({isSelected,theme})=>`
-  ${isSelected?`
+  border-radius: ${({ theme }) => theme.borderRadius}px;
+  width: fit-content;
+  padding: ${({ theme }) => theme.padding}px;
+  ${({ isSelected, theme }) => `
+  ${
+    isSelected
+      ? `
   background-color:red;
   color:${theme.backgroundColor};
-  `:''}
+  `
+      : ''
+  }
   `}
 `
 
@@ -264,4 +305,14 @@ const Logo = styled.img`
   animation: App-logo-spin infinite 20s linear;
   pointer-events: none;
   height: 40vmin;
+`
+
+const TechSkillsCard = styled(C)`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`
+
+const LineRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
