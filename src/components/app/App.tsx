@@ -65,12 +65,12 @@ export const App = () => {
 
   const menuOptions = useMemo(
     () =>
-      KEYS.map((key) => (
-        <MenuOption key={key} onClick={() => setKey(key)}>
-          {key}
+      KEYS.map((key_) => (
+        <MenuOption key={key_} onClick={() => setKey(key_)} isSelected={key_===key}>
+          {key_}
         </MenuOption>
       )),
-    []
+    [key]
   )
 
   const header = useMemo(() => {
@@ -211,11 +211,20 @@ const SmallIcon = styled.svg`
   font-weight: 700;
 `
 
-const MenuOption = styled.div`
+const MenuOption = styled.div<{isSelected:boolean}>`
   margin: 5px;
   font-weight: 700;
   cursor: pointer;
   font-size: 1.2em;
+  border-radius:${({theme})=>theme.borderRadius}px;
+  width:fit-content;
+  padding:${({theme})=>theme.padding}px;
+  ${({isSelected,theme})=>`
+  ${isSelected?`
+  background-color:red;
+  color:${theme.backgroundColor};
+  `:''}
+  `}
 `
 
 const ContactInfoCard = styled(C)`
